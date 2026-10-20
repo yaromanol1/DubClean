@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1540 880" width="1540" height="880" font-family="Inter, 'Segoe UI', 'Helvetica Neue', system-ui, sans-serif">
+  <title>Конвейер обработки DubClean</title>
+  <desc>Маршрут фильма от исходных дорожек до собранного результата: подготовка, полная сборка с двумя ветками моделей, слой защит, сведение и выпуск.</desc>
+
+  <defs>
+    <marker id="aGrey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7A8494"/>
+    </marker>
+    <marker id="aTeal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2E8B84"/>
+    </marker>
+    <marker id="aAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#C08324"/>
+    </marker>
+    <marker id="aCoral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#C2503C"/>
+    </marker>
+    <style>
+      .bt   { font-size: 14.5px; font-weight: 600; fill: #1A1D23; }
+      .bs   { font-size: 11px;   font-weight: 400; fill: #5B6470; }
+      .bti  { font-size: 14.5px; font-weight: 600; fill: #FFFFFF; }
+      .bsi  { font-size: 11px;   font-weight: 400; fill: #D9E2EC; }
+      .sect { font-size: 12.5px; font-weight: 700; fill: #98A2B0; letter-spacing: 1.6px; }
+      .lane { font-size: 10.5px; font-weight: 600; fill: #98A2B0; letter-spacing: 1.1px; }
+      .edge { font-size: 10.5px; font-weight: 500; fill: #7A8494; }
+      .lg   { font-size: 11.5px; font-weight: 400; fill: #5B6470; }
+      .flow { fill: none; stroke: #7A8494; stroke-width: 1.6; }
+      .flowT{ fill: none; stroke: #2E8B84; stroke-width: 2; }
+      .flowA{ fill: none; stroke: #C08324; stroke-width: 2; }
+      .flowC{ fill: none; stroke: #C2503C; stroke-width: 1.6; }
+      .dep  { fill: none; stroke: #A9B2BE; stroke-width: 1.4; stroke-dasharray: 5 4; }
+    </style>
+  </defs>
+
+  <rect width="1540" height="880" fill="#FFFFFF"/>
+
+  <!-- ============ 1. ПОДГОТОВКА ============ -->
+  <text class="sect" x="40" y="44">1 · ПОДГОТОВКА</text>
+
+  <!-- источники -->
+  <rect x="40" y="62" width="200" height="54" rx="9" fill="#F4F6F8" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="140" y="84" text-anchor="middle">Оригинал</text>
+  <text class="bs" x="140" y="101" text-anchor="middle">EN речь + музыка и эффекты</text>
+
+  <rect x="40" y="128" width="200" height="54" rx="9" fill="#F4F6F8" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="140" y="150" text-anchor="middle">Перевод</text>
+  <text class="bs" x="140" y="167" text-anchor="middle">EN + RU речь поверх фона</text>
+
+  <!-- цепочка подготовки -->
+  <rect x="268" y="95" width="160" height="54" rx="9" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="348" y="117" text-anchor="middle">Извлечение</text>
+  <text class="bs" x="348" y="134" text-anchor="middle">FLAC 48 кГц + прокси 8 кГц</text>
+
+  <rect x="466" y="95" width="200" height="54" rx="9" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="566" y="117" text-anchor="middle">Сопоставление таймлайнов</text>
+  <text class="bs" x="566" y="134" text-anchor="middle">GCC-PHAT · NCC · огибающая</text>
+
+  <rect x="704" y="95" width="200" height="54" rx="9" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="804" y="117" text-anchor="middle">Анализ совместимости</text>
+  <text class="bs" x="804" y="134" text-anchor="middle">4 полосы маршрутизации</text>
+
+  <rect x="942" y="95" width="170" height="54" rx="9" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="1027" y="117" text-anchor="middle">Превью</text>
+  <text class="bs" x="1027" y="134" text-anchor="middle">5 сцен из 5 зон фильма</text>
+
+  <!-- вердикт -->
+  <polygon points="1170,95 1290,95 1310,122 1290,149 1170,149 1150,122" fill="#F6F2FB" stroke="#7C5BB0" stroke-width="1.6"/>
+  <text class="bt" x="1230" y="117" text-anchor="middle">Вердикт</text>
+  <text class="bs" x="1230" y="134" text-anchor="middle">выполнимости</text>
+
+  <!-- отказ -->
+  <rect x="1348" y="95" width="150" height="54" rx="9" fill="#FDECEA" stroke="#C2503C" stroke-width="1.4"/>
+  <text class="bt" x="1423" y="117" text-anchor="middle" fill="#8E2F20">Сборка</text>
+  <text class="bs" x="1423" y="134" text-anchor="middle" fill="#8E2F20">заблокирована</text>
+
+  <!-- связи подготовки -->
+  <path class="flow" d="M 240 89 L 254 89 L 254 122 L 262 122" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 240 155 L 254 155 L 254 122" />
+  <path class="flow" d="M 428 122 L 460 122" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 666 122 L 698 122" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 904 122 L 936 122" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 1112 122 L 1144 122" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 1310 122 L 1342 122" marker-end="url(#aGrey)"/>
+  <text class="edge" x="1326" y="113" text-anchor="middle">нет</text>
+
+  <!-- ============ 2. ПОЛНАЯ СБОРКА ============ -->
+  <text class="sect" x="40" y="202">2 · ПОЛНАЯ СБОРКА ФИЛЬМА</text>
+
+  <!-- спуск во вторую полосу -->
+  <path class="flow" d="M 1230 149 L 1230 218 L 190 218 L 190 574" />
+  <text class="edge" x="1244" y="188">да · подтверждено оператором</text>
+
+  <text class="lane" x="44" y="272">РЕФЕРЕНС</text>
+  <text class="lane" x="44" y="368">ГОЛОС</text>
+  <text class="lane" x="44" y="570">ФОН</text>
+
+  <path class="flowA" d="M 190 275 L 262 275" marker-end="url(#aAmber)"/>
+  <path class="flowT" d="M 190 371 L 262 371" marker-end="url(#aTeal)"/>
+  <path class="flowA" d="M 190 573 L 262 573" marker-end="url(#aAmber)"/>
+
+  <!-- полоса РЕФЕРЕНС -->
+  <rect x="268" y="248" width="210" height="54" rx="9" fill="#FDF4E6" stroke="#C08324" stroke-width="1.4"/>
+  <text class="bt" x="373" y="270" text-anchor="middle">Речевой стем EN</text>
+  <text class="bs" x="373" y="287" text-anchor="middle">MossFormer2 SE 48K · стоковый</text>
+
+  <rect x="516" y="248" width="190" height="54" rx="9" fill="#FDF4E6" stroke="#C08324" stroke-width="1.4"/>
+  <text class="bt" x="611" y="270" text-anchor="middle">На таймлайн перевода</text>
+  <text class="bs" x="611" y="287" text-anchor="middle">по карте сегментов</text>
+
+  <rect x="744" y="248" width="200" height="54" rx="9" fill="#FDF4E6" stroke="#C08324" stroke-width="1.4"/>
+  <text class="bt" x="844" y="270" text-anchor="middle">Адаптация мастеринга</text>
+  <text class="bs" x="844" y="287" text-anchor="middle">gain + mel-EQ, предел ±6 дБ</text>
+
+  <path class="flowA" d="M 478 275 L 510 275" marker-end="url(#aAmber)"/>
+  <path class="flowA" d="M 706 275 L 738 275" marker-end="url(#aAmber)"/>
+  <path class="flowA" d="M 844 302 L 844 338" marker-end="url(#aAmber)"/>
+  <text class="edge" x="854" y="326">референс</text>
+
+  <!-- полоса ГОЛОС -->
+  <rect x="268" y="344" width="210" height="54" rx="9" fill="#E8F4F3" stroke="#2E8B84" stroke-width="1.4"/>
+  <text class="bt" x="373" y="366" text-anchor="middle">Речевой стем EN + RU</text>
+  <text class="bs" x="373" y="383" text-anchor="middle">MossFormer Plus · дообучен</text>
+
+  <rect x="744" y="344" width="200" height="54" rx="9" fill="#1D4E89" stroke="#1D4E89" stroke-width="1.4"/>
+  <text class="bti" x="844" y="366" text-anchor="middle">DubClean Voice</text>
+  <text class="bsi" x="844" y="383" text-anchor="middle">удаление английской речи</text>
+
+  <rect x="1220" y="344" width="200" height="54" rx="9" fill="#E8F4F3" stroke="#2E8B84" stroke-width="1.4"/>
+  <text class="bt" x="1320" y="366" text-anchor="middle">Синхронизация реплик</text>
+  <text class="bs" x="1320" y="383" text-anchor="middle">только вперёд, до 0,85 с</text>
+
+  <path class="flowT" d="M 478 371 L 738 371" marker-end="url(#aTeal)"/>
+
+  <!-- слой защит -->
+  <rect x="726" y="424" width="692" height="90" rx="12" fill="#FFF8F7" stroke="#E0B4AA" stroke-width="1.3" stroke-dasharray="6 5"/>
+  <text class="lane" x="740" y="440" fill="#C2503C">СЛОЙ ЗАЩИТ</text>
+
+  <rect x="744" y="448" width="200" height="54" rx="9" fill="#FDEDEA" stroke="#C2503C" stroke-width="1.4"/>
+  <text class="bt" x="844" y="470" text-anchor="middle" fill="#8E2F20">Совпадающие слова</text>
+  <text class="bs" x="844" y="487" text-anchor="middle" fill="#8E2F20">double-talk · бюджет 2 %</text>
+
+  <rect x="972" y="448" width="200" height="54" rx="9" fill="#FDEDEA" stroke="#C2503C" stroke-width="1.4"/>
+  <text class="bt" x="1072" y="470" text-anchor="middle" fill="#8E2F20">Целостность RU-речи</text>
+  <text class="bs" x="1072" y="487" text-anchor="middle" fill="#8E2F20">три референса голосуют</text>
+
+  <rect x="1200" y="448" width="200" height="54" rx="9" fill="#FDEDEA" stroke="#C2503C" stroke-width="1.4"/>
+  <text class="bt" x="1300" y="470" text-anchor="middle" fill="#8E2F20">Второй проход</text>
+  <text class="bs" x="1300" y="487" text-anchor="middle" fill="#8E2F20">MossFormer · спорное отклоняется</text>
+
+  <path class="flowT" d="M 844 398 L 844 442" marker-end="url(#aTeal)"/>
+  <path class="flowC" d="M 944 475 L 966 475" marker-end="url(#aCoral)"/>
+  <path class="flowC" d="M 1172 475 L 1194 475" marker-end="url(#aCoral)"/>
+  <path class="flowT" d="M 1300 448 L 1300 402" marker-end="url(#aTeal)"/>
+
+  <!-- полоса ФОН -->
+  <rect x="268" y="546" width="210" height="54" rx="9" fill="#C08324" stroke="#C08324" stroke-width="1.4"/>
+  <text class="bti" x="373" y="568" text-anchor="middle">DubClean M&amp;E</text>
+  <text class="bsi" x="373" y="585" text-anchor="middle">фон без речи из оригинала</text>
+
+  <rect x="516" y="546" width="190" height="54" rx="9" fill="#FDF4E6" stroke="#C08324" stroke-width="1.4"/>
+  <text class="bt" x="611" y="568" text-anchor="middle">На таймлайн перевода</text>
+  <text class="bs" x="611" y="585" text-anchor="middle">по той же карте</text>
+
+  <path class="flowA" d="M 478 573 L 510 573" marker-end="url(#aAmber)"/>
+
+  <!-- зависимость: речевой стем оригинала нужен модели фона -->
+  <path class="dep" d="M 478 289 L 497 289 L 497 524 L 373 524 L 373 540" marker-end="url(#aGrey)"/>
+  <text class="edge" x="392" y="518">речевой стем оригинала</text>
+
+  <!-- ============ 3. СВЕДЕНИЕ И ВЫПУСК ============ -->
+  <text class="sect" x="40" y="610">3 · СВЕДЕНИЕ И ВЫПУСК</text>
+
+  <!-- сборный рельс -->
+  <path class="flow" d="M 1420 371 L 1472 371 L 1472 632 L 250 632 L 250 694" marker-end="url(#aGrey)"/>
+  <path class="flowA" d="M 611 600 L 611 632" marker-end="url(#aAmber)"/>
+  <circle cx="611" cy="632" r="3.4" fill="#7A8494"/>
+
+  <rect x="145" y="700" width="210" height="54" rx="9" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="250" y="722" text-anchor="middle">Баланс и сведение</text>
+  <text class="bs" x="250" y="739" text-anchor="middle">пропорция как в дубляже</text>
+
+  <rect x="393" y="700" width="200" height="54" rx="9" fill="#FDEDEA" stroke="#C2503C" stroke-width="1.4"/>
+  <text class="bt" x="493" y="722" text-anchor="middle" fill="#8E2F20">Защита песен</text>
+  <text class="bs" x="493" y="739" text-anchor="middle" fill="#8E2F20">EfficientAT + 4 проверки</text>
+
+  <rect x="655" y="664" width="260" height="54" rx="9" fill="#2B3440" stroke="#2B3440" stroke-width="1.4"/>
+  <text class="bti" x="785" y="686" text-anchor="middle">Дорожки DubClean</text>
+  <text class="bsi" x="785" y="703" text-anchor="middle">FLAC lossless, отдельными файлами</text>
+
+  <rect x="655" y="736" width="210" height="54" rx="9" fill="#FFFFFF" stroke="#9AA4B2" stroke-width="1.4"/>
+  <text class="bt" x="760" y="758" text-anchor="middle">Упаковка фильма</text>
+  <text class="bs" x="760" y="775" text-anchor="middle">видео копией + AAC 256 кбит/с</text>
+
+  <rect x="903" y="736" width="200" height="54" rx="9" fill="#2B3440" stroke="#2B3440" stroke-width="1.4"/>
+  <text class="bti" x="1003" y="758" text-anchor="middle">result.mkv</text>
+  <text class="bsi" x="1003" y="775" text-anchor="middle">итоговый фильм</text>
+
+  <path class="flow" d="M 355 727 L 387 727" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 593 727 L 624 727 L 624 691 L 649 691" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 624 727 L 624 763 L 649 763" marker-end="url(#aGrey)"/>
+  <path class="flow" d="M 865 763 L 897 763" marker-end="url(#aGrey)"/>
+
+  <!-- ============ ЛЕГЕНДА ============ -->
+  <line x1="40" y1="822" x2="1500" y2="822" stroke="#E4E8ED" stroke-width="1"/>
+
+  <rect x="40" y="840" width="13" height="13" rx="3" fill="#E8F4F3" stroke="#2E8B84" stroke-width="1.3"/>
+  <text class="lg" x="61" y="851">речевая ветка перевода</text>
+
+  <rect x="230" y="840" width="13" height="13" rx="3" fill="#FDF4E6" stroke="#C08324" stroke-width="1.3"/>
+  <text class="lg" x="251" y="851">оригинал: референс и фон</text>
+
+  <rect x="437" y="840" width="13" height="13" rx="3" fill="#FDEDEA" stroke="#C2503C" stroke-width="1.3"/>
+  <text class="lg" x="458" y="851">защиты: могут откатить участок назад</text>
+
+  <rect x="737" y="840" width="13" height="13" rx="3" fill="#1D4E89"/>
+  <text class="lg" x="758" y="851">обученные модели DubClean</text>
+
+  <rect x="957" y="840" width="13" height="13" rx="3" fill="#2B3440"/>
+  <text class="lg" x="978" y="851">файлы для пользователя</text>
+
+  <line x1="1150" y1="847" x2="1186" y2="847" stroke="#A9B2BE" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text class="lg" x="1194" y="851">зависимость, а не поток аудио</text>
+</svg>
