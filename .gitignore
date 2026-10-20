@@ -1,0 +1,58 @@
+# Local Python environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# User projects, generated media, caches and logs
+data/
+output/
+dist/
+.downloads/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+!!Результаты работы DubClean/
+*.mp4
+*.mkv
+*.wav
+*.flac
+*.mp3
+*.log
+*.pid
+*.partial
+*.tmp
+
+# Local media tools
+tools/ffmpeg/bin/*.exe
+tools/ffmpeg/bin/*.dll
+tools/
+
+# Model binaries are distributed as release assets, not Git objects.
+models/**/*.pt
+models/**/*.pth
+models/**/*.ckpt
+models/**/*.onnx
+third_party_models/**/*.pt
+third_party_models/**/*.pth
+third_party_models/**/*.ckpt
+third_party_models/**/*.onnx
+!models/semantic_ru_separator/dubclean_voice.pt
+!models/background_restorer/dubclean_me.pt
+!third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+Desktop.ini
+.DS_Store
+

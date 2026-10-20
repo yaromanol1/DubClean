@@ -1,0 +1,26 @@
+# Полное окружение переносимого сервиса DubClean Portable (одна .venv).
+# Ставится через INSTALL_DEPS.bat. Здесь всё, что нужно для:
+#   - Flask UI и фонового планировщика задач;
+#   - инференса моделей на torch (semantic RU separator, background restorer);
+#   - извлечения речи внешней моделью MossFormer2_SE_48K (пакет clearvoice);
+#   - работы с аудио (soundfile/scipy/numpy) и чтения config.yaml (PyYAML).
+#
+# ffmpeg/ffprobe — внешняя зависимость: в PATH либо tools/ffmpeg/bin внутри
+# пакета; pip их не ставит.
+# torch/torchaudio ставятся ОТДЕЛЬНО в INSTALL_DEPS.bat: сначала сборка CUDA
+# (cu121) для GPU, при неудаче — CPU-версия с PyPI. Поэтому их здесь нет, чтобы
+# clearvoice не подтянул несовместимую сборку torch. Эти же версии зафиксированы
+# ниже: torchvision иначе может потребовать более новый torch и нарушить пару.
+torch==2.5.1
+torchaudio==2.5.1
+torchvision==0.20.1
+numpy==1.26.4
+scipy==1.13.1
+soundfile==0.12.1
+PyYAML==6.0.2
+Flask==3.1.2
+# Локальный VAD для выбора пяти речевых превью. Модель .jit входит в wheel и
+# загружается из site-packages, без torch.hub/Hugging Face и без токена.
+silero-vad==6.2.0
+# Внешняя модель извлечения речи (тянет librosa/numba/huggingface-hub и т.п.).
+clearvoice==0.1.2

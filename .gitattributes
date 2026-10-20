@@ -1,0 +1,27 @@
+* text=auto
+.gitattributes text eol=lf
+.gitignore text eol=lf
+LICENSE text eol=lf
+NOTICE text eol=lf
+COPYRIGHT text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.pt binary
+*.pth binary
+*.ckpt binary
+*.onnx binary
+*.jit binary
+*.flac binary
+*.wav binary
+*.mp3 binary
+*.mp4 binary
+*.mkv binary

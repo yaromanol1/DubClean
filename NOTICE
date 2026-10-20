@@ -1,0 +1,18 @@
+DubClean Portable
+Copyright (C) 2026 DubClean contributors
+
+The DubClean application source code is licensed under the GNU Affero General
+Public License, version 3 or (at your option) any later version
+(AGPL-3.0-or-later). The complete license text is in LICENSE.
+
+The original DubClean Voice and DubClean M&E model weights are licensed under
+AGPL-3.0-or-later. Their scope and exclusions are described in
+MODEL_LICENSE.md.
+
+This distribution contains third-party software and model weights that remain
+under their respective licenses. They are not relicensed under the DubClean
+license. See THIRD_PARTY_NOTICES.md and the adjacent metadata supplied with
+third-party models.
+
+DubClean does not grant any license to films, translations, audio recordings,
+training material or other media processed with the software.

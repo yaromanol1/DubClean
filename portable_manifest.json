@@ -1,0 +1,138 @@
+{
+  "product": "DubClean Portable",
+  "product_id": "dubclean-portable",
+  "license": "AGPL-3.0-or-later",
+  "license_file": "LICENSE",
+  "version": "0.6.0",
+  "status": "relocatable_windows_service",
+  "self_contained": false,
+  "external_runtime": {
+    "python": "Python 3.11 is required to create or repair .venv",
+    "ffmpeg": "ffmpeg and ffprobe must be in PATH or tools/ffmpeg/bin",
+    "network": "required for first dependency, model and FFmpeg installation only"
+  },
+  "ui_runtime": {
+    "react": "docs/концепт интерфейса/react.production.min.js",
+    "react_dom": "docs/концепт интерфейса/react-dom.production.min.js",
+    "babel": "docs/концепт интерфейса/babel.min.js",
+    "network_required_after_install": false
+  },
+  "models": {
+    "dubclean_voice": {
+      "public_name": "DubClean Voice",
+      "file": "models/semantic_ru_separator/dubclean_voice.pt",
+      "size_bytes": 15600846,
+      "sha256": "36CB7CBC3A2F28897D04C682F24B3619F3CECD4B6A62C5DE982BC949A75DEBB6",
+      "purpose": "Удаляет совпавшую иностранную речь из дорожки перевода и сохраняет русскую речь",
+      "license": "AGPL-3.0-or-later",
+      "license_file": "MODEL_LICENSE.md",
+      "accepted": true,
+      "required_for_default": true,
+      "export": "inference_only; tensors identical; optimizer and private training metadata omitted",
+      "distribution": "git",
+      "download_urls": [
+        "https://raw.githubusercontent.com/yaromanol1/DubClean/v0.6.0/models/semantic_ru_separator/dubclean_voice.pt"
+      ]
+    },
+    "dubclean_me": {
+      "public_name": "DubClean M&E",
+      "file": "models/background_restorer/dubclean_me.pt",
+      "size_bytes": 8334594,
+      "sha256": "B5179BDDBF6D4B37F95238F6368E46758DB8E0E9AA41E55C6B5AE9AB1712F73B",
+      "purpose": "Строит M&E: музыка и эффекты без речи",
+      "license": "AGPL-3.0-or-later",
+      "license_file": "MODEL_LICENSE.md",
+      "accepted": true,
+      "required_for_default": true,
+      "export": "inference_only; tensors identical; optimizer and private training metadata omitted",
+      "distribution": "git",
+      "download_urls": [
+        "https://raw.githubusercontent.com/yaromanol1/DubClean/v0.6.0/models/background_restorer/dubclean_me.pt"
+      ]
+    },
+    "speech_extractor": {
+      "backend": "clearvoice_mossformer2_se_48k",
+      "model_name": "MossFormer2_SE_48K",
+      "dir": "third_party_models/MossFormer2_SE_48K_original",
+      "weight_file": "last_best_checkpoint.pt",
+      "size_bytes": 221552019,
+      "weight_sha256": "03692B9F773BBD6BB43B9C5A41F96B1E28AFFD66E13796B7BEC66AD3D8B227C6",
+      "purpose": "Стандартное извлечение английской речи из оригинальной дорожки",
+      "accepted": true,
+      "required_for_default": true,
+      "origin": "MossFormer2_SE_48K original pretrained checkpoint",
+      "license": "apache-2.0",
+      "license_file": "licenses/Apache-2.0.txt",
+      "notice_file": "third_party_models/MossFormer2_SE_48K_original/README.md",
+      "distribution": "github_release",
+      "download_urls": [
+        "https://github.com/yaromanol1/DubClean/releases/download/v0.6.0/mossformer2-original-48k.pt"
+      ]
+    },
+    "speech_extractor_dubbed": {
+      "backend": "clearvoice_mossformer2_se_48k",
+      "model_name": "MossFormer2_SE_48K",
+      "dir": "third_party_models/MossFormer2_SE_48K",
+      "weight_file": "last_best_checkpoint.pt",
+      "size_bytes": 221528916,
+      "weight_sha256": "01D6003C19FFF3B7597EB275AFB65C56554E4C2D4A31EDF0001E2FF9229035BC",
+      "purpose": "Дообученное извлечение всей речи EN+RU из дублированной дорожки",
+      "accepted": true,
+      "required_for_default": true,
+      "origin": "DubClean fine-tuned speech extractor for dubbed audio",
+      "license": "apache-2.0",
+      "base_model_license": "apache-2.0",
+      "license_file": "licenses/Apache-2.0.txt",
+      "notice_file": "third_party_models/MossFormer2_SE_48K/README.md",
+      "export": "inference_only; tensors identical; optimizer and private training metadata omitted",
+      "distribution": "github_release",
+      "download_urls": [
+        "https://github.com/yaromanol1/DubClean/releases/download/v0.6.0/mossformer-plus-48k.pt"
+      ]
+    },
+    "song_classifier": {
+      "backend": "efficientat_mn04_audioset",
+      "model_name": "EfficientAT MN04 AudioSet",
+      "file": "third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt",
+      "size_bytes": 4692780,
+      "sha256": "CDDAD90406926B0167721B6F7CFA07A2CBE8A1715BE4448323069C3CAE9B9C7B",
+      "purpose": "Подтверждает продолжительное пение только на оригинальной английской дорожке",
+      "accepted": true,
+      "required_for_default": true,
+      "origin": "EfficientAT mn04_as pretrained on AudioSet; local TorchScript export with preprocessing",
+      "license": "MIT",
+      "license_file": "licenses/EfficientAT-MIT.txt",
+      "notice_file": "third_party_models/efficientat/README.md",
+      "distribution": "git",
+      "download_urls": [
+        "https://raw.githubusercontent.com/yaromanol1/DubClean/v0.6.0/third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt"
+      ]
+    },
+    "music_separator_fallback": {
+      "backend": "audio-separator / BS-RoFormer",
+      "model_name": "model_bs_roformer_ep_317_sdr_12.9755.ckpt",
+      "dir": "third_party_models/audio_separator",
+      "size_bytes": 639331213,
+      "purpose": "Необязательный резервный M&E-разделитель, когда встроенная background_restorer не выбрана",
+      "backend_license": "MIT",
+      "checkpoint_license": "not_declared_in_product_checkpoint_not_bundled",
+      "license_file": "licenses/Audio-Separator-MIT.txt",
+      "accepted": false,
+      "required_for_default": false,
+      "bundled": false
+    }
+  },
+  "default_pipeline": {
+    "semantic_model": "dubclean_voice",
+    "background_model": "dubclean_me",
+    "speech_extractor_original": "MossFormer2_SE_48K original pretrained",
+    "speech_extractor_dubbed": "MossFormer Plus",
+    "song_classifier": "EfficientAT MN04 AudioSet",
+    "disabled_by_default": [
+      "focused_gate",
+      "zero_reference",
+      "reference_adapter"
+    ]
+  },
+  "repository": "https://github.com/yaromanol1/DubClean"
+}
