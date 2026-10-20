@@ -1,0 +1,511 @@
+schema_version: 2
+# Пути внутри пакета записаны относительно корня DubClean Portable, поэтому
+# файл не содержит путь конкретного компьютера и переживает перенос папки.
+# portable_tools/configure_portable.py владеет этими значениями и оставляет
+# абсолютным только внешнюю папку проектов, выбранную пользователем.
+paths:
+  uploads: ./data/uploads
+  projects: ./data/projects
+  outputs: ./data/outputs
+  legacy_outputs: ./data/outputs
+  models: ./models
+  runtime: ./data/runtime
+  backups: ./data/backups
+  allowed_media_roots:
+    - ./data/uploads
+web:
+  host: 127.0.0.1
+  port: 8768
+  max_upload_mb: 8192
+  open_browser: true
+tasks:
+  poll_interval_sec: 1.0
+  max_parallel_pair_tasks: 3
+  stale_heartbeat_sec: 45
+  stop_timeout_sec: 8
+  log_tail_lines: 300
+compute:
+  # auto: использовать CUDA, когда она доступна и на видеокарте достаточно
+  # свободной памяти; иначе безопасно продолжать на CPU.
+  device: auto
+  speech_extraction_min_cuda_free_gb: 2.5
+  subtraction_min_cuda_free_gb: 1.0
+  background_restoration_min_cuda_free_gb: 1.0
+audio:
+  sample_rate: 48000
+  min_test_duration_sec: 1.0
+  max_test_duration_sec: 600.0
+  extraction_format: flac
+  extraction_codec: flac
+  extraction_sample_format: s16
+  extraction_compression_level: 8
+  proxy_sample_rate: 8000
+  processing_block_sec: 20.0
+  overlap_sec: 0.25
+  minimum_free_space_gb: 1.0
+  free_space_reserve_ratio: 1.25
+  checksum_block_mb: 4
+  preview_duration_sec: 12.0
+  manual_preview_max_sec: 120.0
+alignment:
+  initial_search_max_sec: 900.0
+  reference_scan_sec: 120.0
+  reference_candidates: 8
+  initial_window_sec: 10.0
+  search_sample_rate: 2000
+  initial_min_confidence: 0.6
+  # Пограничный результат допустим только при большом отрыве от всех
+  # альтернативных позиций. Это сохраняет защиту на повторяющейся музыке.
+  initial_distinctive_min_confidence: 0.55
+  initial_distinctive_min_margin: 0.2
+  initial_speed_ratios:
+  - 1.0
+  - 1.04270833
+  - 0.95904
+  verification_points: 15
+  verification_window_sec: 10.0
+  verification_refine_radius_sec: 1.5
+  # Draft correction behind the Step 2 "Auto" button.  The estimate is made
+  # from independent scenes spread over the mapped film, never from durations.
+  auto_correction_points: 9
+  auto_correction_min_points: 3
+  auto_correction_local_radius_sec: 45.0
+  auto_correction_recovery_radius_sec: 300.0
+  auto_correction_min_confidence: 0.3
+  auto_correction_max_abs_sec: 600.0
+  local_search_radius_sec: 45.0
+  recovery_search_radius_sec: 300.0
+  min_confidence: 0.3
+  # Слабая контрольная точка допускается только около уже предсказанной
+  # временной позиции и при явном отрыве от второго кандидата.
+  verification_distinctive_min_confidence: 0.2
+  verification_distinctive_min_margin: 0.12
+  verification_prediction_tolerance_sec: 2.0
+  approved_map_min_measured_confidence: 0.05
+  approved_map_processing_confidence: 0.45
+  discontinuity_threshold_ms: 300.0
+  # Насколько контрольные точки должны лечь на прямую, чтобы карту можно
+  # было считать одним глобальным сопоставлением. Прежние 0.2 с — это
+  # разброс, который сам по себе слышен как рассинхрон.
+  global_affine_max_residual_sec: 0.05
+  max_speed_deviation: 0.06
+  # Собрать фильм с картинкой оригинала можно только тогда, когда обратная
+  # временная карта покрывает почти всю его длительность: непокрытые участки
+  # в итоговом фильме станут тишиной.
+  minimum_video_swap_coverage: 0.95
+  crossfade_ms: 150.0
+  # Общий контейнер задаёт общую шкалу времени, но не общий монтаж: дубляж,
+  # взятый из другого релиза, несёт его склейки и уходит от оригинала на
+  # десятки миллисекунд. Поэтому одинаковый источник — повод измерить, а не
+  # повод объявить дорожки совпадающими.
+  same_container_verification:
+    chunk_sec: 30.0
+    search_radius_sec: 1.0
+    min_window_confidence: 0.12
+    min_measured_windows: 8
+    plateau_tolerance_sec: 0.025
+    min_segment_sec: 90.0
+    min_plateau_windows: 3
+    max_plateaus: 48
+    # Проверочные окна намеренно смещены относительно измерительных и
+    # оцениваются другой статистикой: профиль из шума не должен подтвердить
+    # сам себя.
+    verification_window_sec: 20.0
+    verification_step_sec: 60.0
+    verification_margin: 0.01
+    min_verification_windows: 6
+    silence_rms: 0.0001
+  # Остаточная задержка сцены: карта ставит оригинал и перевод на общие
+  # часы, а это проверка, что сцена действительно там оказалась. Подложка
+  # музыки и эффектов иначе уезжает от реплик на десятки миллисекунд.
+  scene_media_delay_guard:
+    max_delay_sec: 0.25
+    min_delay_sec: 0.008
+    min_confidence: 0.15
+    min_agreement_gain: 0.02
+reference_compatibility:
+  # Calibration values are intentionally configuration, not model constants.
+  window_sec: 20.0
+  step_sec: 10.0
+  max_lag_sec: 1.5
+  mel_bands: 24
+  min_reference_activity: 0.08
+  min_active_windows: 3
+  low_confidence: 0.42
+  thresholds:
+    high: 0.72
+    mid: 0.48
+  weights:
+    logmel_envelope: 0.36
+    gcc_lag_stability: 0.22
+    vad_spectral: 0.32
+    reference_activity: 0.10
+  production_checkpoints:
+  - semantic_ru_separator/dubclean_voice.pt
+adaptive_cancel:
+  stft_n_fft: 2048
+  stft_hop: 512
+  block_frames: 24
+  streaming_chunk_sec: 20.0
+  streaming_context_sec: 0.5
+  gain_smoothing: 0.65
+  min_coherence: 0.3
+  regularization: 1.0e-06
+  max_gain_linear: 8.0
+  low_confidence_passthrough: true
+speech_extraction:
+  backend: clearvoice_mossformer2_se_48k
+  model_name: MossFormer2_SE_48K
+  python: ./.venv/Scripts/python.exe
+  runner: ./python_src/experiments/paired_reference_cancel/speech_stem_runner.py
+  checkpoint_dir: ./third_party_models/MossFormer2_SE_48K_original
+  dubbed_checkpoint_dir: ./third_party_models/MossFormer2_SE_48K
+  sample_rate: 48000
+  chunk_sec: 20.0
+  context_sec: 1.0
+  force_cpu: false
+  trial_duration_sec: 15.0
+  comparison_demo_count: 5
+  comparison_demo_duration_sec: 30.0
+speech_integrity_guard:
+  # DSP-контроль после каждого разрушающего прохода. При сомнении второй
+  # проход уступает уже очищенному безопасному результату первого прохода.
+  enabled: true
+  algorithm: stagewise_multisignal_integrity_v5
+  analysis_sample_rate: 16000
+  analysis_chunk_sec: 60.0
+  window_sec: 0.50
+  hop_sec: 0.25
+  minimum_active_rms_db: -48.0
+  # Только для уже безопасного первого прохода: тихая периодическая речь
+  # сохраняется при подтверждённой потере, но сомнительный маршрут не включается.
+  second_pass_quiet_voiced_minimum_rms_db: -50.0
+  second_pass_quiet_voiced_minimum_loss_db: 6.0
+  second_pass_quiet_voiced_minimum_speech_band_share: 0.90
+  second_pass_quiet_voiced_minimum_temporal_dynamic_db: 12.0
+  minimum_speech_band_share: 0.52
+  minimum_periodicity: 0.18
+  second_pass_suspect_loss_db: 3.5
+  second_pass_confirmed_loss_db: 6.0
+  second_pass_severe_loss_db: 12.0
+  second_pass_band_loss_db: 3.0
+  second_pass_confirmed_band_loss_db: 5.5
+  second_pass_minimum_shape_similarity: 0.76
+  second_pass_minimum_temporal_similarity: 0.58
+  second_pass_unvoiced_minimum_loss_db: 12.0
+  second_pass_unvoiced_minimum_band_loss_db: 8.0
+  second_pass_unvoiced_minimum_lost_bands: 3
+  second_pass_unvoiced_minimum_speech_band_share: 0.90
+  second_pass_unvoiced_minimum_shape_similarity: 0.88
+  second_pass_unvoiced_minimum_temporal_similarity: 0.85
+  second_pass_unvoiced_minimum_temporal_dynamic_db: 10.0
+  second_pass_unvoiced_minimum_spectral_peak_share: 0.006
+  candidate_silence_rms_db: -68.0
+  primary_minimum_loss_db: 7.5
+  primary_minimum_band_loss_db: 6.0
+  primary_minimum_en_margin_db: 10.0
+  primary_minimum_en_band_margin_db: 8.0
+  primary_minimum_removed_shape_similarity: 0.80
+  primary_minimum_removed_temporal_similarity: 0.64
+  primary_minimum_confidence: 0.86
+  # Полный оригинальный микс блокирует восстановление лишь тогда, когда его
+  # речевая активность совпадает с реально удалённой разницей. Это отделяет
+  # пропущенную английскую речь от тонов, музыки и ударных эффектов.
+  primary_raw_reference_minimum_removed_shape_similarity: 0.80
+  primary_raw_reference_minimum_removed_temporal_similarity: 0.55
+  primary_raw_reference_sustained_shape_similarity: 0.94
+  primary_raw_reference_maximum_sustained_peak_share: 0.55
+  primary_boundary_probe_sec: 0.05
+  # Резервный путь для глухой/непериодичной речи. Он не ослабляет обычный
+  # gate и срабатывает только при одновременном строгом согласии всех метрик.
+  primary_unvoiced_minimum_loss_db: 12.0
+  primary_unvoiced_minimum_band_loss_db: 8.0
+  primary_unvoiced_minimum_lost_bands: 3
+  primary_unvoiced_minimum_speech_band_share: 0.90
+  primary_unvoiced_minimum_removed_shape_similarity: 0.995
+  primary_unvoiced_minimum_removed_temporal_similarity: 0.97
+  primary_unvoiced_minimum_temporal_dynamic_db: 10.0
+  primary_unvoiced_minimum_spectral_peak_share: 0.006
+  primary_unvoiced_minimum_confidence: 0.97
+  minimum_interval_sec: 0.20
+  maximum_merge_gap_sec: 0.16
+  boundary_padding_sec: 0.04
+  crossfade_sec: 0.10
+  maximum_auto_interval_sec: 8.0
+  maximum_restored_fraction: 0.02
+  minimum_restoration_budget_sec: 3.0
+speech_synchronization:
+  # Перемещаются только подтверждённые фразы. Всё остальное сохраняется на
+  # месте, а нарушение контракта возвращает несинхронизированный результат.
+  enabled: true
+  algorithm: conservative_copy_move_contract_v2
+  schema_version: 2
+  maximum_advance_sec: 0.85
+  crossfade_sec: 0.015
+  preserve_unmatched_audio: true
+  fallback_to_unsynchronized_on_contract_failure: true
+  separation_guard:
+    # Переносить реплики можно только тогда, когда переносимый стем
+    # действительно речь. Если выделение речи вернуло свой вход почти без
+    # изменений, «речевые сегменты» покрывают весь саундтрек, и перенос
+    # сотен таких сегментов рвёт непрерывный фон на сдвинутые куски.
+    # Пороги выбраны по замерам на готовых проектах: разделённый стем даёт
+    # совпадение 0.70-0.81 при остатке -2.4..-4.6 дБ, passthrough --
+    # 0.97-0.99 при остатке -12.5..-22.2 дБ. Отключение требует
+    # одновременного согласия всех трёх признаков.
+    analysis_sample_rate: 16000
+    window_sec: 8.0
+    step_sec: 45.0
+    minimum_window_rms_db: -50.0
+    minimum_windows: 8
+    passthrough_correlation: 0.93
+    passthrough_level_drop_db: 1.5
+    passthrough_residual_ratio_db: -9.0
+reference_speech_level_alignment:
+  # Оценивается только когерентная английская составляющая речевых стемов.
+  # Дополнительная русская речь увеличивает EN+RU RMS, но не считается
+  # усилением английского референса. При сомнении используется raw без правок.
+  algorithm: robust_common_component_cross_power_v1
+  n_fft: 512
+  hop: 256
+  bands: 40
+  validation_block_sec: 1.0
+  min_hz: 120.0
+  max_hz: 8000.0
+  active_dynamic_range_db: 25.0
+  reference_band_dynamic_range_db: 45.0
+  min_coherence: 0.12
+  min_median_coherence: 0.18
+  min_phase_cosine: 0.50
+  min_support_bins: 8
+  min_support_fraction: 0.025
+  max_gain_mad_db: 2.5
+  max_fit_holdout_delta_db: 1.25
+  max_abs_gain_db: 6.0
+  gain_cap_tolerance_db: 0.75
+  min_abs_gain_db: 0.5
+  max_output_peak: 0.995
+coincident_speech_protection:
+  # Обычный DSP-анализ, без отдельной модели. Защита ищет только короткие
+  # случаи, где вместе с английским референсом исчезла не объясняемая им
+  # часть русской речи. При сомнении обработанный звук остаётся без изменений.
+  enabled: true
+  algorithm: robust_stft_double_talk_v3
+  analysis_sample_rate: 16000
+  analysis_chunk_sec: 45.0
+  # Соседние блоки калибровки перекрываются: слово на стыке блоков
+  # анализируется целиком и вместе со своим контекстом, а восстанавливает
+  # его только тот блок, в чью основную зону попадает середина события.
+  analysis_overlap_sec: 2.5
+  frame_sec: 0.032
+  hop_sec: 0.010
+  minimum_frequency_hz: 90.0
+  maximum_frequency_hz: 4200.0
+  calibration_quantile: 0.75
+  minimum_calibration_active_sec: 1.5
+  minimum_calibration_similarity: 0.68
+  maximum_calibration_gain_mad_db: 3.5
+  expected_reference_guard_db: 2.0
+  minimum_reference_rms_db: -46.0
+  minimum_input_rms_db: -46.0
+  minimum_removed_rms_db: -48.0
+  minimum_context_post_rms_db: -48.0
+  minimum_context_output_share: 0.04
+  minimum_context_active_share: 0.30
+  minimum_reference_active_share: 0.60
+  minimum_removed_reference_similarity: 0.62
+  minimum_pre_to_post_loss_db: 6.0
+  minimum_estimated_near_end_share: 0.18
+  minimum_missing_near_end_share: 0.58
+  minimum_unexpected_removed_share: 0.22
+  minimum_recoverable_pre_share: 0.12
+  minimum_noncollinear_removed_share: 0.12
+  minimum_speech_band_share: 0.65
+  isolated_noncollinear_share: 0.24
+  isolated_near_end_share: 0.32
+  isolated_missing_share: 0.74
+  isolated_unexpected_removed_share: 0.34
+  minimum_interval_sec: 0.10
+  maximum_interval_sec: 1.60
+  maximum_merge_gap_sec: 0.08
+  context_side_sec: 0.30
+  boundary_padding_sec: 0.035
+  crossfade_sec: 0.060
+  minimum_confidence: 0.84
+  isolated_minimum_confidence: 0.92
+  target_recovery_fraction: 0.85
+  maximum_recovery_gain: 0.90
+  maximum_recovery_mask: 0.85
+  maximum_recovery_relative_rms: 0.70
+  # Жёсткий предел: на восстановленном участке очищенная речь не может стать
+  # громче исходной дублированной дорожки, из которой она взята.
+  maximum_output_to_input_rms: 1.0
+  # Эти пороги отмечают подозрительно плотный результат в отчёте, но не меняют
+  # решения: глобальный veto давал разные результаты в превью и full. За
+  # продолжительные вокальные участки отвечает отдельная защита песен.
+  sustained_vocal_veto_sec: 2.20
+  sustained_vocal_gap_sec: 0.32
+  maximum_intervals_per_minute: 6
+  maximum_restored_fraction: 0.02
+  maximum_reported_rejections: 200
+song_protection:
+  # EfficientAT анализирует только английский оригинал. Автозамена разрешена
+  # лишь когда отдельные проверки подтверждают музыку и удаление вокала.
+  enabled: true
+  classifier_backend: efficientat_mn04_audioset
+  classifier_model_path: ./third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt
+  classifier_sample_rate: 32000
+  classifier_input_sec: 10.0
+  classifier_batch_size: 12
+  analysis_sample_rate: 8000
+  window_sec: 10.0
+  step_sec: 5.0
+  minimum_interval_sec: 12.0
+  maximum_gap_sec: 5.0
+  preview_scene_sec: 35.0
+  preview_min_sec: 30.0
+  preview_max_sec: 40.0
+  crossfade_sec: 0.35
+  minimum_confidence: 0.78
+  minimum_input_rms_db: -42.0
+  minimum_classifier_singing_score: 0.12
+  minimum_classifier_direct_singing_score: 0.07
+  minimum_classifier_music_score: 0.65
+  minimum_music_presence: 0.48
+  minimum_speech_stem_share: 0.18
+  minimum_relative_vocal_removal_db: 3.0
+  minimum_removed_vocal_share: 0.25
+  # Резервная ветка разрешена только при почти полном абсолютном удалении
+  # вокала и одновременном подтверждении музыки, непрерывного вокала и пения.
+  # Обычные пороги выше при этом не ослабляются.
+  minimum_strong_removed_vocal_share: 0.95
+  minimum_strong_music_presence: 0.40
+  # Даже очень тональный остаток не считается музыкальным фоном, если он
+  # практически неслышен.
+  minimum_strong_music_background_rms_db: -42.0
+  minimum_strong_music_tonality: 0.80
+  minimum_strong_speech_stem_share: 0.02
+  minimum_strong_vocal_continuity: 0.35
+  minimum_strong_vocal_tonality: 0.95
+  minimum_strong_singing_over_speech_margin: 0.03
+  # Пограничные окна не получают самостоятельного разрешения на замену.
+  # Они могут расширить только плотную группу со строгим окном >= 0.95.
+  minimum_anchor_support_removed_vocal_share: 0.92
+  minimum_anchor_support_removed_program_share: 0.93
+  minimum_anchor_group_removed_vocal_share: 0.94
+  minimum_anchor_group_removed_program_share: 0.94
+  minimum_anchor_group_support_windows: 3
+  minimum_anchor_group_span_sec: 12.0
+  maximum_anchor_group_missed_windows: 1
+  # Контекст расширяет уже подтверждённую группу максимум на один шаг сетки.
+  maximum_anchor_context_extension_sec: 20.0
+  minimum_track_music_similarity: 0.78
+  minimum_track_matched_window_share: 0.65
+  dialogue_window_sec: 1.5
+  dialogue_step_sec: 0.5
+  minimum_dialogue_interval_sec: 0.6
+  dialogue_merge_gap_sec: 0.5
+  dialogue_boundary_margin_sec: 0.15
+  synchronization_guard_sec: 0.85
+  minimum_dialogue_nonmatching_share: 0.30
+  minimum_dialogue_score: 0.38
+  strong_dialogue_score: 0.60
+  minimum_dialogue_speech_likeness: 0.20
+  minimum_translation_voice_share: 0.12
+  # Настоящий переводной голос занимает заметную долю полного русского микса;
+  # более слабую протечку песенного вокала нельзя использовать для блокировки.
+  minimum_translation_voice_program_share: 0.55
+  # Вокал песни, протёкший в речевой слой, не должен выглядеть как отдельная
+  # переводная реплика. У обычной речи речевой диапазон заметно доминирует.
+  minimum_translation_voice_vocal_to_backing_db: 6.0
+  # Пограничное значение не даёт разрешения на замену: оно сохраняет
+  # обработанный звук как низкоуверенный, не считая его подтверждённой речью.
+  translation_voice_vocal_to_backing_ambiguity_margin_db: 0.5
+  minimum_translation_voice_speech_likeness: 0.18
+  minimum_translation_voice_rms_db: -42.0
+  minimum_translation_voice_majority_window_share: 0.60
+  minimum_ambiguous_nonmatching_share: 0.38
+  ambiguous_dialogue_score_margin: 0.08
+  dialogue_baseline_margin: 0.10
+  dialogue_mad_multiplier: 2.5
+  minimum_dialogue_stem_rms_db: -42.0
+music_separation:
+  backend: bs_roformer_vocals_instrumental
+  model_name: model_bs_roformer_ep_317_sdr_12.9755.ckpt
+  model_size_bytes: 639331213
+  download_url: https://github.com/TRvlvr/model_repo/releases/download/all_public_uvr_models/model_bs_roformer_ep_317_sdr_12.9755.ckpt
+  python: ./.venv/Scripts/python.exe
+  runner: ./python_src/experiments/paired_reference_cancel/music_separator_runner.py
+  model_dir: ./third_party_models/audio_separator
+  chunk_sec: 120
+previews:
+  categories:
+  - simultaneous
+  - en_first
+  - balanced_levels
+  - loud_en
+  - quiet_en
+  - silence_or_music
+  - edit_boundary
+  - low_confidence
+  maximum_per_pair: 8
+dataset:
+  clip_duration_sec: 8.0
+  clip_stride_sec: 12.0
+  training_sample_rate: 24000
+  real_evaluation_examples_per_pair: 5
+  minimum_confidence: 0.42
+  minimum_rms_db: -55.0
+  minimum_reference_speech_rms_db: -48.0
+  maximum_examples_per_pair: 120
+  split_percent:
+    train: 70
+    valid: 15
+    test: 15
+  scene_group_sec: 120.0
+training:
+  backend: semantic_ru_separator
+  python: ./.venv/Scripts/python.exe
+  runner: ./python_src/experiments/paired_reference_cancel/semantic_separator_runner.py
+  n_fft: 512
+  hop_length: 256
+  base_channels: 16
+  band_edges_hz:
+  - 80
+  - 250
+  - 500
+  - 1000
+  - 2000
+  - 4000
+  - 8000
+  - 16000
+  - 24000
+  learning_rate: 0.0005
+  batch_size: 8
+  data_loader_workers: 3
+  quick_check_batches: 2
+  short_epoch_choices:
+  - 1
+  - 2
+  - 3
+  full_epoch_choices:
+  - 5
+  - 10
+  - 20
+  checkpoint_every_epoch: true
+  recommendation_min_relative_improvement: 0.01
+full_processing:
+  default_method: baseline
+  low_confidence_strategy: passthrough
+  remux_container: mkv
+  # Кодек итоговой дорожки внутри фильма выбирается по совместимости, а не по
+  # максимальному качеству: FLAC внутри MKV не понимают телевизоры, браузеры и
+  # онлайн-сервисы, и без декодера фильм остаётся вообще без звука. Lossless
+  # всегда лежит рядом отдельным файлом в папке «Дорожки DubClean».
+  remux_audio_codec: aac
+  remux_audio_bitrate: 256k
+  remux_audio_channels: 2
+  remux_audio_sample_rate: 48000
+diagnostics:
+  clipping_threshold: 0.999
+  min_confident_segment_ratio_ok: 0.5
