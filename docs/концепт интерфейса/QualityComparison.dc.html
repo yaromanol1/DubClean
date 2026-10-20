@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>DubClean — сравнение качества</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232c9361'/%3E%3Cpath d='M11 10h10v12H11z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/product/quality-comparison.css">
+  <script src="/product/quality-comparison.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/product" aria-label="Вернуться в DubClean">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span>DubClean</span>
+    </a>
+    <a class="back-link" href="/product">← К проектам</a>
+  </header>
+
+  <main class="page-shell">
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">Проверка качества</p>
+        <h1 id="page-title">Сравнение результата</h1>
+        <p id="page-description" class="page-description">Выберите интервал и сравните звук до и после исправления.</p>
+      </div>
+      <label class="comparison-picker" for="comparison-select">
+        <span>Набор проверки</span>
+        <select id="comparison-select" disabled>
+          <option>Загрузка…</option>
+        </select>
+      </label>
+    </section>
+
+    <div id="status" class="status" role="status" aria-live="polite">Загрузка данных…</div>
+
+    <section id="comparison-content" class="comparison-content" hidden>
+      <div id="summary" class="summary" aria-label="Сводка сравнения"></div>
+
+      <div class="toolbar">
+        <label class="toggle">
+          <input id="blind-toggle" type="checkbox">
+          <span aria-hidden="true"></span>
+          Слепое сравнение
+        </label>
+        <button id="reveal-button" class="button button-secondary" type="button" hidden>Показать варианты</button>
+        <span id="active-state" class="active-state">Воспроизведение остановлено</span>
+      </div>
+
+      <div class="workspace">
+        <aside class="interval-panel" aria-label="Найденные интервалы">
+          <div class="panel-heading">
+            <h2>Интервалы</h2>
+            <span id="interval-count" class="count-badge">0</span>
+          </div>
+          <div id="interval-list" class="interval-list"></div>
+        </aside>
+
+        <section class="review-panel" aria-labelledby="interval-title">
+          <div class="review-heading">
+            <div>
+              <p id="interval-time" class="timecode">—</p>
+              <h2 id="interval-title">Выберите интервал</h2>
+            </div>
+            <span id="confidence" class="confidence" hidden></span>
+          </div>
+
+          <p id="interval-reason" class="reason"></p>
+          <dl id="metrics" class="metrics"></dl>
+
+          <div id="players" class="players">
+            <article class="player-card" data-player-card="left">
+              <div class="player-label-row">
+                <span id="left-badge" class="variant-badge">A</span>
+                <h3 id="left-label">До исправления</h3>
+              </div>
+              <audio id="left-audio" controls preload="metadata"></audio>
+              <p id="left-missing" class="missing-audio" hidden>Аудиофайл ещё не подготовлен.</p>
+            </article>
+
+            <article class="player-card" data-player-card="right">
+              <div class="player-label-row">
+                <span id="right-badge" class="variant-badge">B</span>
+                <h3 id="right-label">После исправления</h3>
+              </div>
+              <audio id="right-audio" controls preload="metadata"></audio>
+              <p id="right-missing" class="missing-audio" hidden>Аудиофайл ещё не подготовлен.</p>
+            </article>
+          </div>
+
+          <div class="transport" aria-label="Управление сравнением">
+            <button id="play-left" class="button button-primary" type="button" disabled>▶ Вариант A</button>
+            <button id="play-right" class="button button-primary" type="button" disabled>▶ Вариант B</button>
+            <button id="pause-all" class="button button-secondary" type="button" disabled>Пауза</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="empty-state" class="empty-state" hidden>
+      <div class="empty-icon" aria-hidden="true">◌</div>
+      <h2>Данные сравнения ещё не готовы</h2>
+      <p>Страница заполнится автоматически после подготовки аудиофрагментов и манифеста.</p>
+    </section>
+  </main>
+</body>
+</html>
