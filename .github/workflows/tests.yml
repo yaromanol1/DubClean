@@ -1,0 +1,33 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  windows-python-311:
+    runs-on: windows-latest
+    env:
+      DUBCLEAN_SOURCE_ONLY: "1"
+      PYTHONUTF8: "1"
+      PYTHONIOENCODING: utf-8
+      PYTHONPATH: ${{ github.workspace }}\python_src
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install CPU PyTorch
+        run: python -m pip install torch==2.5.1 torchaudio==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cpu
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Audit source checkout
+        run: python portable_tools/check_release.py .
+      - name: Run tests
+        run: python portable_tools/configure_portable.py
+      - name: Run unit tests
+        working-directory: python_src
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
