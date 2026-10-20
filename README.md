@@ -56,8 +56,8 @@ Microsoft; его лицензию и запрос UAC нужно подтвер
 
 ### Установка из исходников с интернетом
 
-1. Скачайте [архив исходников](https://github.com/yaromanol1/DubClean/releases/latest)
-   (`DubClean-0.6.0-source.zip`) и распакуйте в отдельную папку.
+1. Скачайте [архив текущих исходников](https://github.com/yaromanol1/DubClean/archive/refs/heads/main.zip)
+   (`DubClean-main.zip`) и распакуйте в отдельную папку.
    Также можно скачать исходники кнопкой **Code → Download ZIP** или через Git.
 2. Запустите `SETUP.bat`. Он использует установленный Python 3.11 x64 либо
    устанавливает Python 3.11.9 из python.org с проверкой подписи издателя,
@@ -103,7 +103,7 @@ NVIDIA GPU рекомендуется; доступен режим CPU. Python �
 | DubClean M&E | 8.3 МБ | `models/background_restorer/dubclean_me.pt` | репозиторий |
 | MossFormer2_SE_48K | 221.6 МБ | `third_party_models/MossFormer2_SE_48K_original/last_best_checkpoint.pt` | GitHub Releases |
 | MossFormer Plus | 221.5 МБ | `third_party_models/MossFormer2_SE_48K/last_best_checkpoint.pt` | GitHub Releases |
-| EfficientAT MN04 AudioSet | 4.7 МБ | `third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt` | репозиторий |
+| EfficientAT MN04 AudioSet | 4.4 МБ | `third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt` | репозиторий |
 
 В репозитории лежат обе модели DubClean и локальный классификатор EfficientAT.
 Оба MossFormer сохранены в Releases этого же проекта и автоматически

@@ -94,8 +94,8 @@
       "backend": "efficientat_mn04_audioset",
       "model_name": "EfficientAT MN04 AudioSet",
       "file": "third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt",
-      "size_bytes": 4692780,
-      "sha256": "CDDAD90406926B0167721B6F7CFA07A2CBE8A1715BE4448323069C3CAE9B9C7B",
+      "size_bytes": 4443560,
+      "sha256": "29F0A4954C4D3BA75F7D4E1C46969B7A9F7FAB6EB8FF2933EC700D399A15C508",
       "purpose": "Подтверждает продолжительное пение только на оригинальной английской дорожке",
       "accepted": true,
       "required_for_default": true,
@@ -105,7 +105,7 @@
       "notice_file": "third_party_models/efficientat/README.md",
       "distribution": "git",
       "download_urls": [
-        "https://raw.githubusercontent.com/yaromanol1/DubClean/v0.6.0/third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt"
+        "https://raw.githubusercontent.com/yaromanol1/DubClean/451a7b25c9e4dc6b4917342171f6a5062ee2f047/third_party_models/efficientat/efficientat_mn04_audioset_waveform.pt"
       ]
     },
     "music_separator_fallback": {
