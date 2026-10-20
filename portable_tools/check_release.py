@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import sys
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -123,6 +124,16 @@ def audit(root: Path, *, require_models: bool) -> list[str]:
                     errors.append(f"неверный размер модели: {expected.relative_to(root)}")
                 if expected_hash and sha256(expected) != expected_hash:
                     errors.append(f"неверный SHA-256 модели: {expected.relative_to(root)}")
+                # TorchScript may keep export-machine source paths in debug records.
+                if zipfile.is_zipfile(expected):
+                    with zipfile.ZipFile(expected) as archive:
+                        for record in archive.infolist():
+                            if "/data/" in record.filename or record.file_size > 30_000_000:
+                                continue
+                            metadata = archive.read(record).decode("utf-8", errors="ignore")
+                            if PRIVATE_PATH.search(metadata):
+                                errors.append(f"частный путь внутри модели: {expected.relative_to(root)} ({record.filename})")
+                                break
     return errors
 
 
